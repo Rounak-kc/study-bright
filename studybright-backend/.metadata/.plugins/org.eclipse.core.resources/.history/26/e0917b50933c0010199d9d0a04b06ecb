@@ -1,0 +1,60 @@
+package com.project.study_bright.model;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+@Entity
+public class Exams {
+
+	/*{
+    id: "e1",
+    title: "SSC CGL 2023 Tier-I Mock Test",
+    description: "Practice test for Staff Selection Commission Combined Graduate Level Examination",
+    examType: "SSC",
+    duration: 60,
+    totalQuestions: 100,
+    maxMarks: 200,
+    negativeMarking: 0.5,
+    isPremium: false,
+    sections: [
+      { id: "s1", name: "General Intelligence & Reasoning", questionCount: 25 },
+      { id: "s2", name: "General Awareness", questionCount: 25 },
+      { id: "s3", name: "Quantitative Aptitude", questionCount: 25 },
+      { id: "s4", name: "English Comprehension", questionCount: 25 },
+    ],
+  },*/
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	private String title;
+	
+	private String discription;
+	
+	private String examType;
+	
+	private LocalDateTime duration;
+	
+	private int totalQuestions;
+	
+	private int maxMarks;
+	
+	private double negativeMarking;
+	
+	private boolean isPremium;
+	
+	@OneToMany(mappedBy = "exam",cascade = CascadeType.ALL)
+	private List<Section> sections;
+	
+	@OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
+    private List<TestResult> testResults;
+	
+	
+}

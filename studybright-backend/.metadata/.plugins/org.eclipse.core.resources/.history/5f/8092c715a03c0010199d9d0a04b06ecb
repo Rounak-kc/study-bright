@@ -1,0 +1,5 @@
+package com.project.study_bright.services;
+
+public interface ExamService {
+
+}

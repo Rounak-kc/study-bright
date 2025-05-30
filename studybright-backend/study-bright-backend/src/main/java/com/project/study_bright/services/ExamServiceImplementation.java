@@ -1,0 +1,54 @@
+package com.project.study_bright.services;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.project.study_bright.model.Exams;
+import com.project.study_bright.repositories.ExamRepository;
+import com.project.study_bright.requests.ExamRequest;
+
+public class ExamServiceImplementation implements ExamService{
+	
+	@Autowired
+	private ExamRepository examRepository;
+
+	@Override
+	public Exams createExam(ExamRequest request) {
+		Exams exam=new Exams();
+		exam.setTitle(request.getTitle());
+		exam.setDiscription(request.getDescription());
+		exam.setExamType(request.getExamType());
+		exam.setDuration(request.getDuration());
+		exam.setTotalQuestions(request.getTotalQuestions());
+		exam.setMaxMarks(request.getMaxMarks());
+		exam.setNegativeMarking(request.getNegativeMarking());
+		exam.setPremium(request.isPremium());
+		return examRepository.save(exam);
+	}
+
+	@Override
+	public List<Exams> getExamsBySearch(String search) {
+		if (search == null || search.isBlank()) {
+            return examRepository.findAll();
+        }
+
+        return examRepository.findAll().stream()
+                .filter(e -> e.getTitle().toLowerCase().contains(search.toLowerCase()) ||
+                             e.getExamType().toLowerCase().contains(search.toLowerCase()))
+                .collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<Exams> getAllExams() {
+		List<Exams> exam=examRepository.findAll();
+		return exam;
+	}
+
+	@Override
+	public void deleteExam(Long id) {
+		examRepository.deleteById(id);
+	}
+
+}
